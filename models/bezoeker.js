@@ -56,7 +56,7 @@ type: Number
 
 bezoekersSchema.plugin(passportLocalMongoose, {
     usernameField: "email",
-    paswordField: "wachtwoord"
+    
     })
 
 

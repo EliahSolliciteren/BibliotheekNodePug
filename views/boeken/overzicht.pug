@@ -1,4 +1,5 @@
- 
+include ../indexView.pug
+
 a(href='/boeken/create')
     button Nieuw Boek toevoegen
  
@@ -13,5 +14,5 @@ each boek in boeken
 
       for tagLeeftijd in boek.tagsLeeftijd
         li= tagLeeftijd 
-    a(href=boek._id+ "/delete?_method=DELETE")
+    a(href='bezoekers/'+boek._id+ "/delete?_method=DELETE")
         button(type=button) Verwijderen
