@@ -1,0 +1,17 @@
+ 
+a(href='/boeken/create')
+    button Nieuw Boek toevoegen
+ 
+each boek in boeken 
+    p titel: #{boek.titel}
+    p auteur  #{boek.auteur}
+    p uitgever #{boek.uitgever}
+
+    ul
+      for tagGenre in boek.tagsGenre
+        li= tagGenre 
+
+      for tagLeeftijd in boek.tagsLeeftijd
+        li= tagLeeftijd 
+    a(href=boek._id+ "/delete?_method=DELETE")
+        button(type=button) Verwijderen

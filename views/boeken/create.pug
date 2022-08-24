@@ -1,0 +1,46 @@
+if flash.validatie
+  ul
+    each fout in flash.validatie
+        li= fout
+
+
+h1 Nieuw Boek in de database ingeven.
+
+form(action='http://localhost:3000/boeken/create' method='post')
+    label(for='titel') titel: 
+    input(type='text' id='titel' name='titel')
+    br
+    label(for='auteur') auteur:
+    input(type='text' id='auteur' name='auteur')
+    br
+    label(for='uitgever') uitgever:
+    input(type='text' id='uitgever' name='uitgever')
+    br
+    label(for='bladzijden') aantal bladzijden:
+    input(type='number' id='bladzijden' name="bladzijden")
+    br
+    p tags voor genre
+    br
+    label(for='triller') triller:
+    input(type='checkbox' id='triller' name='tagsGenre' value='triller')
+    br
+    label(for='detectieve') detectieve:
+    input(type='checkbox' id='detectieve' name='tagsGenre' value='detectieve')
+    br
+    label(for='roman') roman:
+    input(type='checkbox' id='roman' name='tagsGenre' value='roman')
+
+    p tags voor leeftijd 
+    br
+    label(for='kinderen') kinderen
+    input(type='checkbox' id='kinderen' name='tagsLeeftijd' value='kinderen')
+    br
+    label(for='adolescenten') adolescenten
+    input(type='checkbox' id='adolescenten' name='tagsLeeftijd' value='adolescenten')
+    br
+    label(for='volwassenen') volwassenen
+    input(type='checkbox' id='volwassenen' name='tagsLeeftijd' value='volwassenen')
+    br
+    a(href='boeken/create')
+    button(type='submit') opslaan
+
