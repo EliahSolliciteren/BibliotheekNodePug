@@ -3,6 +3,9 @@ if (logIn)
   p  #{User.naam.familienaam}
 else 
     p Niet aangemeld
+if (flash)
+    if(flash.HTTP404)
+         p #{flash.HTTP404}
 
 a(href='/bezoekers')
     button(type=button) Alle klanten

@@ -2,7 +2,7 @@ const bezoeker = require('../models/bezoeker.js')
 const mongoose =require('mongoose')
 const passport = require("passport")
 const passportLocalMongoose=require('passport-local-mongoose')
-const { findByIdAndRemove } = require('../models/bezoeker.js')
+const { findByIdAndRemove, findById } = require('../models/bezoeker.js')
 
 //Catch nog
 
@@ -101,9 +101,21 @@ updatePost: (req,res,next)=>{
     const telefoonnummer = req.body.telefoonnumer
     bezoeker.findByIdAndUpdate(id,
 {$set: {'naam.voornaam':voornaam, 'naam.familienaam': familienaam,'contactgegevens.email' :email, 'contactgegevens.telefoonnummer':telefoonnummer}})
-.then(updated=>{ res.render('./bezoeker/details', {bezoeker:updated})})
-    }
+.then(updated=>{ res.render('bezoeker/details', {bezoeker:updated})})
+    },
 
+
+
+leenoverzicht: (req,res,next)=>{
+//console.log(req.user)
+bezoeker.findById(req.user._id).populate('lenen').then(resultaat=>
+{res.render('bezoeker/leenoverzicht',{geleend:resultaat})})
+//.then(user2=>{console.log(user2);res.render('bezoeker/leenoverzicht',{geleend:user2})})
+
+
+
+
+}
 
 
 

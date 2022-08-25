@@ -3,6 +3,7 @@ const mongoose =require('mongoose')
 const { findByIdAndDelete, find } = require('../models/boek.js')
 const flash = require('flash')
 const { body, validationResult,  checkSchema} = require('express-validator');
+const bezoeker = require('../models/bezoeker.js');
 
 
 
@@ -153,6 +154,17 @@ console.log(req.path)
 
     console.log(id)
     boek.findByIdAndRemove(id).exec().then(()=>{res.locals.redirect='/boeken'})
+
+},
+
+lenen:(req,res,next)=>{
+    const id=mongoose.Types.ObjectId(req.params.id)
+    console.log(req.user)
+bezoeker.findByIdAndUpdate(req.user._id, {$push:{'lenen': [id] }}).exec()
+.then(()=>{ req.flash("lenen", "Veel leesplezier")
+res.redirect("/boeken", {lenen:req.flash});
+})
+
 
 },
 

@@ -1,3 +1,4 @@
+const boekenController = require("../controllers/boekenController")
 
 const router = require("express").Router(),
 bezoekersController = require("../controllers/bezoekersController")
@@ -15,7 +16,7 @@ router.get('/afmelden', bezoekersController.afmelden)
 router.get('/:id/updaten', bezoekersController.updateGet)
 router.put('/:id/updaten', bezoekersController.updatePost)
 router.delete('/:id/delete', bezoekersController.delete, bezoekersController.redirectView)
-
+router.get('/leenoverzicht', bezoekersController.leenoverzicht)
 
 
 

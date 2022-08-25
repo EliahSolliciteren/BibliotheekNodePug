@@ -19,6 +19,13 @@ trim: true
 }
 },
 
+lenen:[{
+
+type:mongoose.Schema.Types.ObjectId,
+ref: 'boek'
+
+}],
+
 email:{
 
 type: String,

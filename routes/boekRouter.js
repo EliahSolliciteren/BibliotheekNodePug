@@ -7,7 +7,7 @@ router.post('/create',boekenController.validatie,boekenController.validatie2, bo
 router.get('/', boekenController.overzicht)
 router.get('/:id/boek', boekenController.details)
 router.delete('/:id/delete', boekenController.delete, boekenController.redirectView)
-
+router.get('/:id/lenen', boekenController.lenen)
 
 
 
