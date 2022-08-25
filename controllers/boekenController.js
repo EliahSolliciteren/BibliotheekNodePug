@@ -149,19 +149,17 @@ res.render('boeken/details', {boek:opgezocht})
 
 delete:(req,res,next)=>{
 console.log(req.path)
-    const id=req.params.id 
-console.log(id)
-boek.findByIdAndRemove(id).exec()
-boek.find().then(alleBoeken=>{
-res.locals.redirect='/boeken/' 
-next()})
+    const id=mongoose.Types.ObjectId(req.params.id)
+
+    console.log(id)
+    boek.findByIdAndRemove(id).exec().then(()=>{res.locals.redirect='/boeken'})
 
 },
 
 redirectView:(req,res,next)=>{
         let redirectPath = res.locals.redirect;
-        if (redirectPath) res.redirect(redirectPath);
-        else next();
+        if (redirectPath) {res.redirect(redirectPath)}
+        else{next()}
         
 
 

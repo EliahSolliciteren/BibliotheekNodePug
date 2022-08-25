@@ -14,5 +14,5 @@ each boek in boeken
 
       for tagLeeftijd in boek.tagsLeeftijd
         li= tagLeeftijd 
-    a(href='bezoekers/'+boek._id+ "/delete?_method=DELETE")
+    a(href='/boeken/'+boek._id+ "/delete?_method=DELETE")
         button(type=button) Verwijderen

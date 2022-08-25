@@ -1,0 +1,12 @@
+include ../indexView.pug
+
+
+each bezoeker in bezoekers
+    p  #{bezoeker.naam.voornaam}
+    p  #{bezoeker.naam.familienaam}
+    p  #{bezoeker.email}
+    p  #{bezoeker.telefoonnummer}
+    a(href='/bezoekers/'+ bezoeker._id +"/delete?_method=DELETE")
+        button(type='button') Verwijderen 
+    a(href="/bezoekers/"+bezoeker._id+"/updaten?_method=PUT")
+        button(type='button') Wijzigen

@@ -1,0 +1,19 @@
+if (logIn)
+  p  #{User.naam.voornaam} 
+  p  #{User.naam.familienaam}
+else 
+    p Niet aangemeld
+
+a(href='/bezoekers')
+    button(type=button) Alle klanten
+
+a(href='/boeken')
+    button(type='button') Alle boeken
+
+form(action="http://localhost:3000/bezoekers/aanmelden", method="post") 
+    label(for='email') emailadres:
+    input(type='text' name='email' id='email')
+    br
+    label(for='password') wachtwoord:
+    input(type='password' name='password' id='password')
+    button(type='submit') Aanmelden

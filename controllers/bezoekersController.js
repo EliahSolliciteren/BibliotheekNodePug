@@ -59,16 +59,16 @@ registreren: (req,res,next)=>{
 
             redirectView:(req,res,next)=>{
                 let redirectPath = res.locals.redirect;
-                if (redirectPath) res.redirect(redirectPath);
+                if (redirectPath){res.redirect(redirectPath)}
                 else {next()};
         
             },
 
-authentificatiePost:(req,res,next)=>{console.log(req.body);passport.authenticate('local',{successRedirect: "/bezoekers", failureRedirect:"./aanmelden"})(req,res,next)}
+authentificatiePost:(req,res,next)=>{console.log(req.body);passport.authenticate('local',{successRedirect: "/bezoekers", failureRedirect:"/boeken"})(req,res,next)}
 
 ,
 
-authentificatieGet:(req,res,next)=>{res.render('./bezoekers/aanmelden')},
+authentificatieGet:(req,res,next)=>{res.render('/bezoekers/aanmelden')},
 
 
 

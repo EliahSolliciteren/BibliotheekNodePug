@@ -1,0 +1,21 @@
+include ../indexView.pug
+
+h2 Nieuwe account aanmaken. 
+br
+form(action="http://localhost:3000/bezoekers/registreren", method="post") 
+    label(for='voornaam') voornaam:
+    input(type='text' id='voornaam' name='voornaam')
+    br
+    label(for='familienaam') familienaam:
+    input(type='text' id='familienaam' name='familienaam')
+    br
+    label(for='email') email:
+    input(type='text' id='email' name='email')
+    br
+    label(for='wachtwoord') wachtwoord:
+    input(type='wachtwoord' id='wachtwoord' name='password')
+    br
+    tlabel(for='telefoonnummer') telefoonnummer:
+    input(type='text' id='telefoonnummer' name='telefoonnummer')
+    br
+    button(type='submit') Registreren
