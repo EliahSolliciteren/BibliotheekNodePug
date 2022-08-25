@@ -161,8 +161,13 @@ lenen:(req,res,next)=>{
     const id=mongoose.Types.ObjectId(req.params.id)
     console.log(req.user)
 bezoeker.findByIdAndUpdate(req.user._id, {$push:{'lenen': [id] }}).exec()
-.then(()=>{ req.flash("lenen", "Veel leesplezier")
-res.redirect("/boeken", {lenen:req.flash});
+.then(()=>{ let vandaag = new Date().toISOString(); 
+
+    boek.findByIdAndUpdate(id,{$push:{'UitgeleendOp': [vandaag] }},{"returnNewDocument" : true}).exec().then(boek=>{console.log(boek.UitgeleendOp.length)})
+    //Dit artefact laat ik staan voor educatieve doeleinde
+    req.flash("lenen", "Veel leesplezier")
+
+res.redirect("/boeken");
 })
 
 

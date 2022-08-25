@@ -63,20 +63,20 @@ ref: "review"
 
 
 
-Uitgeleend: {
+versies: {
 
-type: Boolean,
-default:false
+type: Number,
+default:1
 
 },
 
 
-UitgeleendTot:{
+UitgeleendOp:[{
 
 type: Date,
 
 
-},})
+}],})
 {
 
 timestamps: true

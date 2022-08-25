@@ -29,9 +29,10 @@
  
  router.use('*', function(req,res){
  
- req.flash({'HTTP404': 'Pagina niet gevonden'})
+ req.flash('HTTP404', 'Pagina niet gevonden' )
  res.redirect('/bezoekers')
  //res.status(404)
+ 
  
  })
  
