@@ -1,5 +1,15 @@
 include ../indexView.pug 
 
-for boek in geleend.lenen
-    p #{boek.titel}
-    p #{boek.auteur}
+
+
+     
+    
+
+for boek, index in geleend.lenen
+    p Titel: #{boek.titel}
+    p Auteur: #{boek.auteur}
+    p Je mag hem houden tot:  #{moment(geleend.geleendOp[index]).add(3,'M').format('DD/MM/YYYY')}
+    a(href='/boeken/'+ boek._id +'/binnenbrengen?datum='+geleend.geleendOp[index]) 
+      button(type='button') Terug brengen
+    
+    hr

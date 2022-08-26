@@ -5,6 +5,7 @@ bezoekersController = require("../controllers/bezoekersController")
 
 
 
+router.get('/:id/binnenbrengen', bezoekersController.binnenbrengen)
 
 router.get('/registreren', bezoekersController.nieuweAccount)
 router.post('/registreren', bezoekersController.registreren)

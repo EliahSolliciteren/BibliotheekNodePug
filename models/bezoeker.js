@@ -26,6 +26,8 @@ ref: 'boek'
 
 }],
 
+geleendOp: [Date],
+
 email:{
 
 type: String,

@@ -20,5 +20,8 @@ each boek in boeken
         li= tagLeeftijd 
     a(href='/boeken/'+boek._id+ "/delete?_method=DELETE")
         button(type=button) Verwijderen
-    a(href='/boeken/'+boek._id+'/lenen')
+    if (boek.UitgeleendOp.length < boek.versies)
+      a(href='/boeken/'+boek._id+'/lenen')
           button(type=button) Uitlenen
+    else 
+      button(type=button) Allemaal uitgeleend

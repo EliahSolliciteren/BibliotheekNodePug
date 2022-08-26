@@ -45,7 +45,7 @@ app.use((req, res, next) => {
     res.locals.flash = req.flash();
     res.locals.logIn = req.isAuthenticated();
     res.locals.User = req.user;
-
+    app.locals.moment = require('moment');
     next();
     })
 const MongoDB = require("mongodb").MongoClient,

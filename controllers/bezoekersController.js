@@ -115,8 +115,17 @@ bezoeker.findById(req.user._id).populate('lenen').then(resultaat=>
 
 
 
-}
+},
+binnenbrengen: (req,res,next)=>{
+    const id=mongoose.Types.ObjectId(req.params.id)
+    console.log(req.user)
+   console.log(bezoeker.aggregate([{$project:{ "matchedIndex": { "$indexOfArray": {'req.user.id.lenen': id}}}}]))
+res.send(req.user)
 
+
+
+
+},
 
 
 
