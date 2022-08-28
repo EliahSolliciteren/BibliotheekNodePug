@@ -228,21 +228,30 @@ zoeken:(req,res,next)=>{
         
         else {
 
-
+console.log('geen resultaat met titel')
     if(auteur)  // Meerdere of geen boeken op titel
-    {boek.find({auteur:{ $regex: auteur ,$options: 'i'  },titel:{ $regex: titel ,$options: 'i'  }})
-    .then(boek2=>
-    {if (boek2.length==1) {res.render('boeken/overzicht', {boeken:boek2})}
+    {console.log('met auteur');boek.find({auteur: {$regex: auteur ,$options: 'i'  },titel:{ $regex: titel ,$options: 'i'  }})
+    .then(boek2=> 
+    {console.log(boek2); if (boek2.length==1) {res.render('boeken/overzicht', {boeken:boek2})}
     else if (boek2.length>1){
     
         if(uitgever) // Na 2 selecties houden we meer dan 1 resultaat over
-        {boek.find({auteur:{ $regex: auteur ,$options: 'i'  },titel:{ $regex: titel ,$options: 'i'  },auteur :{ $regex: auteur ,$options: 'i'  }}).then(boek3=>
+        {console.log('met uitgever');boek.find({auteur:{ $regex: auteur ,$options: 'i'  },titel:{ $regex: titel ,$options: 'i'  },auteur :{ $regex: auteur ,$options: 'i'  }}).then(boek3=>
         {if (boek3.length>0){res.render('boeken/overzicht', {boeken:boek3})}}      )
         }else {res.render('boeken/overzicht',{boeken:boek2})}
     }
     else
-    {res.render('boeken/overzicht', {boeken:boek})}})
-}}}   
+    {res.render('boeken/overzicht', {boeken:boek1})}})
+}
+if (uitgever)
+{boek.find({titel:{ $regex: titel ,$options: 'i'  },uitgever:{ $regex: uitgever ,$options: 'i'  }})
+.then(boek7=> {if(boek7.length==1){res.render('boeken/overzicht',{boeken:boek7})}
+else{next()}})}
+else{
+res.render('boeken/overzicht', {boeken:boek1})
+
+}
+}}   
         
     //    else {res.render('geen resultaat')}}             
                 
@@ -250,37 +259,35 @@ zoeken:(req,res,next)=>{
 else{next()}
 },
     
-zoeken2: (req,res,next)=>{
+zoeken2: (req,res,next)=>{console.log('next()')
 if (auteur){{boek.find({auteur:{ $regex: auteur ,$options: 'i'  }})
 .then(boek4=>
-{ if(boek4.length ==0)
+{ if(boek4.length ==0){
 if (uitgever)
-{boek.find({uitgever:{ $regex: auteur ,$options: 'i'  }})
+{boek.find({uitgever:{ $regex: uitgever ,$options: 'i'  }})
 .then(boek5=>{if (boek5.length==0){next()}else{
 res.render('boeken/overzicht', {boeken:boek5})
 
 
-}})}
-
-
-}
-
-
-
-
-)
-
-
+}})}}
+else if (boek4.length==1){
+    res.render('boeken/overzicht', {boeken:boek4})}
+    else{res.render('boeken/overzicht', {boeken:boek4})}})}}
+else if (uitgever){ //nog meer dan 1 over na auteur
+    boek.find({auteur:{ $regex: auteur ,$options: 'i'  },uitgever:{ $regex: uitgever ,$options: 'i'  } })
+    .then(boek6=> {if(boek6.length>0){res.render('boeken/overzicht',{boeken:boek6})}})
+}else {res.send('geen resultaat zonder tags')}}
 
 
 
-
-}}
-
-
+,
+zoeken3:(req,res,next)=>{
+res.send('tags')
 
 
 },
+
+
 
 
 
@@ -294,19 +301,19 @@ redirectView:(req,res,next)=>{
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
