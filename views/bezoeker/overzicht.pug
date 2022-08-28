@@ -8,5 +8,5 @@ each bezoeker in bezoekers
     p  #{bezoeker.telefoonnummer}
     a(href='/bezoekers/'+ bezoeker._id +"/delete?_method=DELETE")
         button(type='button') Verwijderen 
-    a(href="/bezoekers/"+bezoeker._id+"/updaten?_method=PUT")
+    a(href="/bezoekers/"+bezoeker._id+"/edit")
         button(type='button') Wijzigen

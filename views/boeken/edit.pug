@@ -1,0 +1,48 @@
+if (flash)
+    if (flash.validatie)
+        ul
+            for fout in flash.validatie 
+             li= fout 
+
+form(action='/boeken/'+boek._id+'/edit?_method=PUSH' method='post')
+    label(for='titel') titel
+    input(type='text' value=boek.titel name='titel' id='titel')
+    br
+    label(for='auteur') auteur:
+    input(type='text' value=boek.auteur name='auteur' id='auteur')
+    br
+    label(for='uitgever') uitgever:
+    input(type='text' value=boek.uitgever name='uitgever' id='uitgever')
+    br
+    label(for='bladzijden') aantal bladzijden:
+    input(type='number' id='bladzijden' name="bladzijden" value=boek.bladzijden)
+    br
+    label(for='versies') aantal versies:
+    input(type='number' id='versies' name='versies' value=boek.versies)
+    br
+
+    
+    br
+    label(for='triller') triller:
+    input(type='checkbox' id='triller' value='thriller' name='tagsGenre' checked=boek.tagsGenre.includes('triller'))
+    br
+
+    label(for='detectieve') detectieve:
+    input(type='checkbox' id='detectieve' value='detectieve' name='tagsGenre' checked=boek.tagsGenre.includes('detectieve'))
+    br
+    label(for='roman') roman:
+    input(type='checkbox' id='roman' name='tagsGenre' value='roman' checked=boek.tagsGenre.includes('roman'))
+
+    p tags voor leeftijd 
+    br
+    label(for='kinderen') kinderen
+    input(type='checkbox' id='kinderen' name='tagsLeeftijd' value='kinderen' checked =boek.tagsLeeftijd.includes('kinderen'))
+    br
+    label(for='adolescenten') adolescenten
+    input(type='checkbox' id='adolescenten' name='tagsLeeftijd' value='adolescenten' checked=boek.tagsLeeftijd.includes('adolescenten'))
+    br
+    label(for='volwassenen') volwassenen
+    input(type='checkbox' id='volwassenen' value='volwassenen' name='tagsLeeftijd' checked=boek.tagsLeeftijd.includes('volwassenen'))
+    br
+    a(href='boeken/create')
+    button(type='submit') opslaan

@@ -1,5 +1,7 @@
 include ../indexView.pug
-
+if (flash.validatie)
+    for fout in flash.validatie
+        li= fout
 h2 Nieuwe account aanmaken. 
 br
 form(action="http://localhost:3000/bezoekers/registreren", method="post") 

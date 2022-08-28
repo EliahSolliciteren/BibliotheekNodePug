@@ -95,28 +95,15 @@ validatie2:(req,res,next)=>{
 
 
 
-
-
-
-
-
-
-
-
-
-
 createPost: (req,res,next)=>{
   
 
-
-
-
-console.log('te ver')
 
     boek.create({
 titel:req.body.titel,
 auteur: req.body.auteur,
 bladzijden: req.body.bladzijden,
+uitgever: req.body.uitgever,
 versies: req.body.versies,
 tagsGenre: req.body.tagsGenre,
 tagsLeeftijd: req.body.tagsLeeftijd,
@@ -136,6 +123,29 @@ overzicht: (req,res,next)=>{
 res.render('boeken/overzicht', {boeken:alleBoeken})
 })
 },
+
+editGet: (req,res,next)=>{
+    const id = mongoose.Types.ObjectId(req.params.id)
+console.log(id)
+    boek.findById(id).then(boek=>{console.log(boek);
+    res.render('boeken/edit', {boek:boek})
+    })
+},
+
+editPost: (req,res,next)=>{
+const id = mongoose.Types.ObjectId(req.params.id)
+const titel=req.body.titel;
+const auteur = req.body.auteur;
+const uitgever=req.body.uitgever;
+const bladzijden = req.body.bladzijden;
+const versies = req.body.versies;
+const tagsGenre= req.body.tagsGenre;
+const tagsLeeftijd= req.body.tagsLeeftijd;
+boek.findByIdAndUpdate(id, {$set: {titel:titel, auteur:auteur, uitgever:uitgever, bladzijden:bladzijden, versies:versies, tagsGenre:tagsGenre, tagsLeeftijd: tagsLeeftijd}})
+.then(()=>res.redirect('/boeken'))
+
+
+},  
 
 
 details: (req, res,next)=>{
@@ -175,46 +185,105 @@ res.redirect("/boeken");
 
 binnenbrengen: (req,res,next)=>{
     const id=mongoose.Types.ObjectId(req.params.id)
-const datum =  new Date(req.query.datum )
-console.log(datum)
-var voor= new Date(datum.getTime()-1000-7200000)
+const datum =  (req.query.datum)
+console.log(Date(datum))
 
-
-var na= new Date(datum.getTime()+1000-7200000)
-if (datum>voor){console.log('ok')}
-console.log(datum)
-console.log(voor)
-console.log(na)
-boek.find({'UitgeleendOp':{ $gte: voor,$lte: na} }).exec().then(boeken=>{
-   //console.log(boeken)
-    
+boek.find({'UitgeleendOp':datum }).exec().then(boeken=>{
+ console.log(boeken)
+  //  console.log(req.User._id)
     for(var i=0; i< boeken[0].UitgeleendOp.length;i++ ){
      // console.log(boeken[0].UitgeleendOp[i].getTime())
-  //   console.log(voor)  
-     if (boeken[0].UitgeleendOp[i].getTime() > voor.getTime() && boeken[0].UitgeleendOp[i].getTime()<na.getTime() ){
+  //   console.log(voor) 
+
+     if (boeken[0].UitgeleendOp[i]=datum ){
         console.log(boeken[0].UitgeleendOp[i] )
         const gezocht=boeken[0].UitgeleendOp[i]
 console.log(gezocht); console.log(boeken[0]._id)
+console.log('gezocht:' +gezocht)
     boek.findOneAndUpdate(boeken[0]._id, { $pull:{'UitgeleendOp':gezocht}}).exec()
-    .then(console.log(gezocht), bezoeker.findOneAndUpdate(req.User._id, {$pull:{geleendOp:gezocht}}).exec())
+    .then(bezoeker.findOneAndUpdate(req.user._id, {$pull:{geleendOp:gezocht}}).exec())
     .then(()=>bezoeker.findOneAndUpdate(req.user._id, {$pull:{lenen:id}}).exec())
+res.send('resultaat?')//id is miss verkeerde
+}
+
+    
+    }
+
+});},
+
+
+zoeken:(req,res,next)=>{
+    titel=req.query.titel
+    auteur=req.query.auteur
+    uitgever=req.query.uitgever
+    if (titel)
+    {
+        boek.find({titel:{ $regex: titel ,$options: 'i'  }})
+        .then((boek1)=>{
+            if (boek1.length==1)
+            {console.log(boek1)
+                res.render('boeken/overzicht', {boeken:boek1})}
+        else if (boek1.length==0){next()}
+        
+        
+        else {
+
+
+    if(auteur)  // Meerdere of geen boeken op titel
+    {boek.find({auteur:{ $regex: auteur ,$options: 'i'  },titel:{ $regex: titel ,$options: 'i'  }})
+    .then(boek2=>
+    {if (boek2.length==1) {res.render('boeken/overzicht', {boeken:boek2})}
+    else if (boek2.length>1){
+    
+        if(uitgever) // Na 2 selecties houden we meer dan 1 resultaat over
+        {boek.find({auteur:{ $regex: auteur ,$options: 'i'  },titel:{ $regex: titel ,$options: 'i'  },auteur :{ $regex: auteur ,$options: 'i'  }}).then(boek3=>
+        {if (boek3.length>0){res.render('boeken/overzicht', {boeken:boek3})}}      )
+        }else {res.render('boeken/overzicht',{boeken:boek2})}
+    }
+    else
+    {res.render('boeken/overzicht', {boeken:boek})}})
+}}}   
+        
+    //    else {res.render('geen resultaat')}}             
+                
+)}
+else{next()}
+},
+    
+zoeken2: (req,res,next)=>{
+if (auteur){{boek.find({auteur:{ $regex: auteur ,$options: 'i'  }})
+.then(boek4=>
+{ if(boek4.length ==0)
+if (uitgever)
+{boek.find({uitgever:{ $regex: auteur ,$options: 'i'  }})
+.then(boek5=>{if (boek5.length==0){next()}else{
+res.render('boeken/overzicht', {boeken:boek5})
+
+
+}})}
+
+
 }
 
 
-    }
-
-});}
 
 
-//boek.findByIdAndUpdate(id,{$push:{'UitgeleendOp': [vandaag] }},{"returnNewDocument" : true}).exec().then(boek=>{console.log(boek.UitgeleendOp.length)})
+)
 
-//boek.findOneAndUpdate({'UitgeleendOp':{ $gte: Date(voor),$lte: Date(na)}})
-//, {$pull:{'UitgeleendOp':[datum]}}).exec().then(bezoeker.findByIdAndUpdate(req.user._id, {$pull:{'geleendOp':[datum]}}).exec())
-//bezoeker.findByIdAndUpdate(req.user._id, {$pull:{'lenen':[id]}}).exec()
-//flash('binnengebracht', 'Het boek is binnengebracht!')
-//res.redirect('/bezoekers/leenoverzicht')
 
-,
+
+
+
+
+}}
+
+
+
+
+},
+
+
+
 
 redirectView:(req,res,next)=>{
         let redirectPath = res.locals.redirect;

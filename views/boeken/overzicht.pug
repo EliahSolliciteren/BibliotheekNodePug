@@ -3,6 +3,29 @@ if (flash)
   if (flash.lenen)
   p   #{flash.lenen}
 
+form(action="http://localhost:3000/boeken/zoeken" method="get") 
+  fieldset 
+    legend('Zoek je boek')
+    label(for='titel') titel
+    input(type='text' name='titel' id='titel')
+    label(for='auteur') auteur
+    input(type='text' name='auteur' id='auteur')
+    label(for='uitgever') uitgever
+    input(type='text' name='uitgever' id='uitgever')
+    label(for='uitgever') uitgever
+    input(type='text' name='uitgever' id='uitgever')
+    label(for='tags') tags
+    select(type='text' id='tags' name='tags') 
+      option(value='')
+      optgroup(label='genre')  
+        option(name='thriller' value='thriller' ) thriller
+        option(name='detectieve' value='detectieve') detectieve
+        option(name='roman' value='roman') roman 
+      optgroup(label='leeftijd')  
+        option(name='kinderen' value='kinderen' ) kinderen
+        option(name='adolescenten' value='adolescenten') adolescenten
+        option(name='volwassenen' value='volwassenn') volwassenen
+    button(type="submit") Zoeken
 
 a(href='/boeken/create')
     button Nieuw Boek toevoegen
@@ -20,6 +43,9 @@ each boek in boeken
         li= tagLeeftijd 
     a(href='/boeken/'+boek._id+ "/delete?_method=DELETE")
         button(type=button) Verwijderen
+    a(href='/boeken/'+boek._id+ "/edit")
+        button(type=button) Bewerken
+
     if (boek.UitgeleendOp.length < boek.versies)
       a(href='/boeken/'+boek._id+'/lenen')
           button(type=button) Uitlenen

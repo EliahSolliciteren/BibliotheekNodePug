@@ -1,0 +1,19 @@
+if (flash)
+    if (flash.validatie)
+        for fout in flash.validatie
+            li= fout
+            
+form(action='http://localhost:3000/bezoekers/' + bezoeker._id+ '/edit?_method=PUT', method="POST") 
+    label(for='voornaam') voornaam:
+    input(type='text' name='voornaam' value=bezoeker.naam.voornaam id='voornaam')
+    br
+    label(for='familienaam') familienaam:
+    input(type='text' name='familienaam' value=bezoeker.naam.familienaam id='familienaam')
+    br
+    label(for='email') email:
+    input(type='text' name='email' value=bezoeker.email id='email')
+    br
+    label(for='telefoonnummer') telefoonnummer:
+    input(type='text' name='telefoonnummer' value=bezoeker.telefoonnummer id='telefoonnummer')
+    br
+    button(type='submit') Opslaan

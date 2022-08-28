@@ -3,7 +3,8 @@ const mongoose =require('mongoose')
 const passport = require("passport")
 const passportLocalMongoose=require('passport-local-mongoose')
 const { findByIdAndRemove, findById } = require('../models/bezoeker.js')
-
+const { body, validationResult,  checkSchema} = require('express-validator');
+const path = require('path');
 //Catch nog
 
 
@@ -29,8 +30,93 @@ res.render('bezoeker/create')
 
 },
 
+validatie:
+
+checkSchema({
+voornaam:{ 
+    trim:true,
+    notEmpty:{
+        errorMessage: 'Gelieve een naam op te geven.',
+        bail: true
+
+    } ,
+    isLength: {
+
+        option: [{min:2, max:15 }],
+        errorMessage: 'Gelieve een geldige voornaam op te geven.'
+    }
+},    
+familienaam: {
+    trim:true,
+    notEmpty:{
+        errorMessage: 'Gelieve een familienaam op te geven.',
+        bail: true
+
+    } ,
+    isLength: {
+
+        option: [{min:3, max:15 }],
+        errorMessage: 'Gelieve een geldige familienaam op te geven.'
+    },
+},
+email: {
+trim: true,
+normalizeEmail: true,
+notEmpty:{
+    errorMessage: 'Gelieve een emailadres op te geven',
+    bail:true
+},
+isEmail:{ 
+    errorMessage: 'Gelieve een geldig emailadres te geven',
+bail:true
+},
+
+custom:{
+    options(value, req, path) {
+    return bezoeker.findOne({email:value}).then(user => {
+      if (user /*&& (req.path).indexOf('registreren')==1*/) {
+        return Promise.reject('Er is al iemand met deze email geregistreerd');
+          }
+        else{}})}
+        }},
+telefoonnummer:{
+//sanitizer: replace ([/], '')
+isLength:{
+options: [{min:9, max:12}],
+errorMessage: 'Gelieve een geldig telefoonnummer te geven.'
+
+}
+}}),
+
+validatie2: (req,res,next)=>{
+
+    const error = validationResult(req)
+    
+    if (!error.isEmpty()){
+    req.skip=true
+    
+    
+    let messages = error.array().map(e => e.msg);
+    req.flash("validatie", messages)
+    
+    
+    res.redirect('/bezoekers/registreren')}
+    else{next()}
+     } ,
+
+
+
+
+
+
+
+
+
+
 
 registreren: (req,res,next)=>{
+   console.log(path)
+    
     BezoekerGegevens = (body)=>{
         return{
         
@@ -68,7 +154,7 @@ authentificatiePost:(req,res,next)=>{console.log(req.body);passport.authenticate
 
 ,
 
-authentificatieGet:(req,res,next)=>{res.render('/bezoekers/aanmelden')},
+authentificatieGet:(req,res,next)=>{res.render('/bezoekers')},
 
 
 
@@ -98,10 +184,11 @@ updatePost: (req,res,next)=>{
     const voornaam= req.body.voornaam
     const familienaam = req.body.familienaam
     const email=req.body.email
-    const telefoonnummer = req.body.telefoonnumer
+    const telefoonnummer = req.body.telefoonnummer
+    console.log(req.body)
     bezoeker.findByIdAndUpdate(id,
-{$set: {'naam.voornaam':voornaam, 'naam.familienaam': familienaam,'contactgegevens.email' :email, 'contactgegevens.telefoonnummer':telefoonnummer}})
-.then(updated=>{ res.render('bezoeker/details', {bezoeker:updated})})
+{$set: {'naam.voornaam':voornaam, 'naam.familienaam': familienaam,'email' :email, 'telefoonnummer':telefoonnummer}})
+.then(updated=>{ res.redirect('/bezoeker')})
     },
 
 
@@ -116,16 +203,7 @@ bezoeker.findById(req.user._id).populate('lenen').then(resultaat=>
 
 
 },
-binnenbrengen: (req,res,next)=>{
-    const id=mongoose.Types.ObjectId(req.params.id)
-    console.log(req.user)
-   console.log(bezoeker.aggregate([{$project:{ "matchedIndex": { "$indexOfArray": {'req.user.id.lenen': id}}}}]))
-res.send(req.user)
 
-
-
-
-},
 
 
 
