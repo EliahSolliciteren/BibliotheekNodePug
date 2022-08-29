@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const passportLocalMongoose = require("passport-local-mongoose")
 Schema = mongoose.Schema;
-
+//Alles wat met modellen te maken heeftin het enkelvoud houden.
 
 
 bezoekersSchema = mongoose.Schema({
@@ -40,7 +40,29 @@ telefoonnummer:{
 type: Number
 
 
-}}),
+},
+
+reviews: [{
+
+type: mongoose.Schema.Types.ObjectId,
+ref: 'review'
+
+
+}],
+
+reviewBoeken: [{
+
+type: mongoose.Schema.Types.ObjectId,
+ref: 'reviewBoeken'
+
+
+}]
+
+
+
+
+
+}),
 
 {
 

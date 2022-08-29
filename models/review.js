@@ -5,7 +5,7 @@ Schema = mongoose.Schema;
 
 reviewSchema = mongoose.Schema({
 
-Rating:{
+score:{
 
 type: Number
 
@@ -29,7 +29,18 @@ boek : {
   
 
 
-, }}),
+ },
+
+ tekst:{
+
+type: String, 
+trim: true
+
+ }
+
+
+
+}),
 {
 
     timestamps: true

@@ -42,10 +42,18 @@ each boek in boeken
     a(href='/boeken/'+boek._id+ "/delete?_method=DELETE")
         button(type=button) Verwijderen
     a(href='/boeken/'+boek._id+ "/edit")
-        button(type=button) Bewerken
+        button(type='button') Bewerken
 
     if (boek.UitgeleendOp.length < boek.versies)
-      a(href='/boeken/'+boek._id+'/lenen')
-          button(type=button) Uitlenen
+        a(href='/boeken/'+boek._id+'/lenen')
+          button(type='button') Uitlenen
     else 
-      button(type=button) Allemaal uitgeleend
+        button(type='button') Allemaal uitgeleend
+  
+    if (logIn)
+     if (!User.reviewBoeken.includes(boek._id))
+       a(href='/reviews/create?boek='+boek._id)
+        button(type='button') Schrijf een review
+     else
+       a(href='/reviews/'+User._id+'/zoeken?boek='+boek._id) 
+        button(type='button') review bewerken

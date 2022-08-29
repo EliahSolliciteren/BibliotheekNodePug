@@ -1,0 +1,10 @@
+include ../indexView.pug
+
+form(action="/reviews/"+ review[0]._id+"/edit?_method=PUT", method="post") 
+    label(for='tekst') tekst:
+    input(type='tekst' id='tekst' name='tekst' value=review[0].tekst)
+    br
+    label(for='score') score:
+    input(type='number' value=review[0].score id='score' name='score' )
+    br
+    button(type='submit') Opslaan 

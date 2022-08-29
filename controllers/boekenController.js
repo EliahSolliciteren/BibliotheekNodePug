@@ -147,7 +147,7 @@ boek.findByIdAndUpdate(id, {$set: {titel:titel, auteur:auteur, uitgever:uitgever
 
 },  
 
-
+/*
 details: (req, res,next)=>{
 
 const id=mongoose.Types.ObjectId(req.params.id) 
@@ -157,7 +157,7 @@ boek.findById(id).then(opgezocht=>{
     
 res.render('boeken/details', {boek:opgezocht})
 })
-},
+},*/
 
 delete:(req,res,next)=>{
 console.log(req.path)

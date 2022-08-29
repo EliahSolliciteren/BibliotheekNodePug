@@ -1,0 +1,15 @@
+include ../indexView.pug
+
+if (flash)
+    if (flash.validatie)
+     for fout in validatie
+        li= fout 
+
+form(action="/reviews/create?boek="+ boekid method='post')
+    label(for='tekst') Wat vond je van het boek?
+    textarea(type='tekst' name='tekst' id='tekst' cols="70" row="25")
+    br
+    label(for='score') score:
+    input(type='number' name='score' id='score' max='10')
+    br
+    button(type='submit') Opslaan
