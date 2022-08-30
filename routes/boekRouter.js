@@ -12,7 +12,7 @@ router.get('/zoeken', boekenController.zoeken, boekenController.zoeken2,/* boeke
 router.delete('/:id/delete', boekenController.delete, boekenController.redirectView)
 router.get('/:id/lenen', boekenController.lenen)
 router.get('/:id/binnenbrengen', boekenController.binnenbrengen)
-
+router.get('/:id/details', boekenController.reviewsVoorBoeken)
 
 
 

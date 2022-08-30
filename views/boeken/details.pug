@@ -1,0 +1,34 @@
+include ../indexView.pug 
+
+
+p #{boek.titel}
+
+p #{boek.auteur}
+
+p #{boek.uitgever}
+
+p #{boek.bladzijden}
+
+ul
+    for tags in boek.tagsGenre 
+        li= tags 
+ul
+    for tags in boek.tagsLeeftijd
+        li= tags
+
+ul
+    each review in boek.reviews 
+        
+        li  tekst:  #{review.tekst}
+        
+        li score #{review.score}
+
+        if (User.reviews.includes(review._id))
+            a(href='/reviews/'+review._id+'/edit')
+                button Bewerken
+
+
+        if (User.reviews.includes(review._id))
+            a(href='/reviews/'+review._id+'/delete?_method=DELETE&boek='+boek._id)
+                button delete
+        br

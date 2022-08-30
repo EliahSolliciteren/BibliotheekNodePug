@@ -124,6 +124,16 @@ res.render('boeken/overzicht', {boeken:alleBoeken})
 })
 },
 
+
+reviewsVoorBoeken: (req,res,next)=>{
+    id=mongoose.Types.ObjectId(req.params.id)
+    console.log(id)
+    boek.findOne({_id:id}).populate('reviews')
+    
+    
+    .then(boek=>{res.render('boeken/details', {boek:boek})})}
+    ,
+
 editGet: (req,res,next)=>{
     const id = mongoose.Types.ObjectId(req.params.id)
 console.log(id)

@@ -34,16 +34,17 @@ each boek in boeken
     p uitgever #{boek.uitgever}
 
     ul
-      for tagGenre in boek.tagsGenre
+      each tagGenre in boek.tagsGenre
         li= tagGenre 
 
-      for tagLeeftijd in boek.tagsLeeftijd
+      each tagLeeftijd in boek.tagsLeeftijd
         li= tagLeeftijd 
     a(href='/boeken/'+boek._id+ "/delete?_method=DELETE")
         button(type=button) Verwijderen
     a(href='/boeken/'+boek._id+ "/edit")
         button(type='button') Bewerken
-
+    a(href='/boeken/'+boek._id+ "/details")
+        button(type='button') lees de reviews 
     if (boek.UitgeleendOp.length < boek.versies)
         a(href='/boeken/'+boek._id+'/lenen')
           button(type='button') Uitlenen

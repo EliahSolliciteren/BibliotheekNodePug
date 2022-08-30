@@ -56,6 +56,15 @@ type: mongoose.Schema.Types.ObjectId,
 ref: 'reviewBoeken'
 
 
+}],
+
+gelezen:[{
+
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'gelezenBoeken'
+
+
+
 }]
 
 
