@@ -12,11 +12,11 @@ router.get('/',bezoekersController.overzicht)
 //router.get('/:id?/details', bezoekersController.details)
 router.get('/aanmelden', bezoekersController.authentificatieGet)
 router.post('/aanmelden', bezoekersController.authentificatiePost)
-router.get('/afmelden', bezoekersController.afmelden)
+router.get('/afmelden', bezoekersController.afmelden, bezoekersController.redirectView)
 router.get('/:id/edit', bezoekersController.updateGet)
-router.put('/:id/edit', bezoekersController.updatePost)
+router.put('/:id/edit', bezoekersController.validatie, bezoekersController.validatie2, bezoekersController.updatePost)
 router.delete('/:id/delete', bezoekersController.delete, bezoekersController.redirectView)
-router.get('/leenoverzicht', bezoekersController.leenoverzicht)
+router.get('/leenoverzicht', bezoekersController.leenoverzicht, bezoekersController.redirectView)
 
 
 

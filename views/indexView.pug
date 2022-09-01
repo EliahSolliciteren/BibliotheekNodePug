@@ -1,22 +1,38 @@
-if (logIn)
-  p  #{User.naam.voornaam} 
-  p  #{User.naam.familienaam}
-else 
-    p Niet aangemeld
-if (flash)
-    if(flash.HTTP404)
-         p #{flash.HTTP404}
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Bibliotheek
+body
 
-a(href='/bezoekers')
-    button(type=button) Alle klanten
+    if (logIn)
+     p Welkom op de site van de bibliotheek #{User.naam.voornaam}   #{User.naam.familienaam}
 
-a(href='/boeken')
-    button(type='button') Alle boeken
+    if (flash)
+        if(flash.HTTP404)
+             p #{flash.HTTP404}
 
-form(action="http://localhost:3000/bezoekers/aanmelden", method="post") 
-    label(for='email') emailadres:
-    input(type='text' name='email' id='email')
-    br
-    label(for='password') wachtwoord:
-    input(type='password' name='password' id='password')
-    button(type='submit') Aanmelden
+    a(href='/bezoekers')
+        button(type='button') Alle klanten
+
+    a(href='/boeken')
+        button(type='button') Al onze boeken
+    if (!logIn)
+            form(action="http://localhost:3000/bezoekers/aanmelden", method="post") 
+                label(for='email') emailadres:
+                input(type='text' name='email' id='email' class='form-control ')
+                br
+                label(for='password') wachtwoord:
+                input(type='password' name='password' id='password' class='form-control')
+                br
+                button(type='submit') Aanmelden
+                a(href='bezoekers/registreren')
+                    button(type='button') registreren als nieuwe bezoeker
+    else
+        a(href='/bezoekers/afmelden')
+            button(type='button') Afmelden
+        a(href='/bezoekers/leenoverzicht')
+            button Mijn geleende boeken
+link(rel='stylesheet' href='/styles/opmaak.css')

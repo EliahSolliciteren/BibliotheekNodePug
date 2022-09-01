@@ -6,12 +6,12 @@ router.post('/create',boekenController.validatie,boekenController.validatie2, bo
 router.get('/', boekenController.overzicht)
 router.get('/:id/edit', boekenController.editGet)
 router.put('/:id/edit', boekenController.editPost)
-router.get('/zoeken', boekenController.zoeken, boekenController.zoeken2,/* boekenController.zoeken3*/ )
+router.get('/zoeken', boekenController.zoeken, boekenController.zoeken2,boekenController.redirectView/* boekenController.zoeken3*/ )
 //Staat bij reviews
 //router.get('/:id/boek', boekenController.details)
 router.delete('/:id/delete', boekenController.delete, boekenController.redirectView)
 router.get('/:id/lenen', boekenController.lenen)
-router.get('/:id/binnenbrengen', boekenController.binnenbrengen)
+router.get('/:id/binnenbrengen', boekenController.binnenbrengen, boekenController.redirectView)
 router.get('/:id/details', boekenController.reviewsVoorBoeken)
 
 

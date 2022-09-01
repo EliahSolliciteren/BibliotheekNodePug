@@ -3,6 +3,7 @@ const mongoose =require('mongoose')
 const boek = require('../models/boek.js')
 const { findByIdAndDelete } = require('../models/boek.js')
 const bezoeker = require('../models/bezoeker.js')
+const { checkSchema, validationResult } = require('express-validator')
 
 module.exports = {
 
@@ -25,6 +26,40 @@ res.render('reviews/create', {boekid: boekid})
 
 },
 
+validatie: checkSchema({
+score:{
+isInt:{
+options: [{min: 1, max: 10}],
+ErrorMessage: 'Geef een score tussen de 1 en de 10'
+}},
+tekst: {
+
+isLength: {
+options: [{min:8, max: 500}]
+
+}
+
+
+}
+
+
+}),
+
+
+validatie2:(req,res,next)=>{
+    const error = validationResult(req)
+    
+    if (!error.isEmpty()){
+ req.skip=true
+    
+    
+    let messages = error.array().map(e => e.msg);
+    req.flash("validatie", messages)
+    
+    
+    res.redirect('/reviews/create/'+req.query.boek)}
+    else{next()}
+},
 
 
 createPost: (req,res, next)=>{
@@ -80,7 +115,7 @@ delete: (req,res,next)=>{
     boek.findOneAndUpdate({reviews:id}, {$pull:{reviews:id}}).exec()
 
     review.findByIdAndDelete(id).exec()
-
+res.locals.redirect='/boeken'; next()
     
 },
 

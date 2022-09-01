@@ -2,7 +2,8 @@ include ../indexView.pug
 if (flash)
   if (flash.lenen)
   p   #{flash.lenen}
-
+  if (flash.geenResultaat)
+  p #{flash.geenResultaat}
 form(action="http://localhost:3000/boeken/zoeken" method="get") 
   fieldset 
     legend('Zoek je boek')
@@ -30,13 +31,13 @@ a(href='/boeken/create')
  
 each boek in boeken 
     p titel: #{boek.titel}
-    p auteur  #{boek.auteur}
-    p uitgever #{boek.uitgever}
+    p auteur:  #{boek.auteur}
+    p uitgever: #{boek.uitgever}
 
-    ul
+    ul(class='tags') Leeftijdscategorie 
       each tagGenre in boek.tagsGenre
         li= tagGenre 
-
+    ul(class='tags') Genre
       each tagLeeftijd in boek.tagsLeeftijd
         li= tagLeeftijd 
     a(href='/boeken/'+boek._id+ "/delete?_method=DELETE")
@@ -45,10 +46,11 @@ each boek in boeken
         button(type='button') Bewerken
     a(href='/boeken/'+boek._id+ "/details")
         button(type='button') lees de reviews 
-    if (boek.UitgeleendOp.length < boek.versies)
+    if (logIn)  
+     if (boek.UitgeleendOp.length < boek.versies)
         a(href='/boeken/'+boek._id+'/lenen')
           button(type='button') Uitlenen
-    else 
+     else 
         button(type='button') Allemaal uitgeleend
   
     if (logIn)

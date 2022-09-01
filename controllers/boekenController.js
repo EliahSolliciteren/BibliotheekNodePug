@@ -4,6 +4,7 @@ const { findByIdAndDelete, find, findOneAndUpdate } = require('../models/boek.js
 const flash = require('flash')
 const { body, validationResult,  checkSchema} = require('express-validator');
 const bezoeker = require('../models/bezoeker.js');
+const { MongoNotConnectedError } = require('mongodb');
 
 
 
@@ -35,6 +36,15 @@ isLength:{
     },
 },
 
+versies: {
+isInt: {
+    options: {min: 1},
+    errorMessage: 'Ongeldig aantal versies'
+}
+ 
+
+
+},
 uitgever:{
     
         trim: true,    
@@ -174,8 +184,8 @@ console.log(req.path)
     const id=mongoose.Types.ObjectId(req.params.id)
 
     console.log(id)
-    boek.findByIdAndRemove(id).exec().then(()=>{res.locals.redirect='/boeken'})
-
+    boek.findByIdAndRemove(id).exec().then(()=>{res.locals.redirect='boeken'})
+next()
 },
 
 lenen:(req,res,next)=>{
@@ -213,7 +223,7 @@ console.log('gezocht:' +gezocht)
     boek.findOneAndUpdate(boeken[0]._id, { $pull:{'UitgeleendOp':gezocht}}).exec()
     .then(bezoeker.findOneAndUpdate(req.user._id, {$pull:{geleendOp:gezocht}}).exec())
     .then(()=>bezoeker.findOneAndUpdate(req.user._id, {$pull:{lenen:id}}).exec())
-res.send('resultaat?')//id is miss verkeerde
+res.locals.redirect='/bezoekers/leenoverzicht' ;next()//id is miss verkeerde
 }
 
     
@@ -286,13 +296,13 @@ else if (boek4.length==1){
 else if (uitgever){ //nog meer dan 1 over na auteur
     boek.find({auteur:{ $regex: auteur ,$options: 'i'  },uitgever:{ $regex: uitgever ,$options: 'i'  } })
     .then(boek6=> {if(boek6.length>0){res.render('boeken/overzicht',{boeken:boek6})}})
-}else {res.send('geen resultaat zonder tags')}}
+}else {req.flash('geenResultaat',"Geen boek gevonden met de opgegeven criteria"); res.locals.redirect='/boeken';next()}}
 
 
 
 ,
 zoeken3:(req,res,next)=>{
-res.send('tags')
+res.send('???')
 
 
 },

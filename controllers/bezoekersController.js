@@ -5,6 +5,7 @@ const passportLocalMongoose=require('passport-local-mongoose')
 const { findByIdAndRemove, findById } = require('../models/bezoeker.js')
 const { body, validationResult,  checkSchema} = require('express-validator');
 const path = require('path');
+const { ObjectID } = require('bson')
 //Catch nog
 
 
@@ -24,7 +25,13 @@ module.exports = {
 
 nieuweAccount: (req,res,next)=>{
 
-res.render('bezoeker/create')
+
+
+
+
+
+
+    res.render('bezoeker/create')
 
 
 
@@ -74,7 +81,7 @@ bail:true
 custom:{
     options(value, req, path) {
     return bezoeker.findOne({email:value}).then(user => {
-      if (user /*&& (req.path).indexOf('registreren')==1*/) {
+      if (req.path.indexOf('edit')==-1 && user ) {
         return Promise.reject('Er is al iemand met deze email geregistreerd');
           }
         else{}})}
@@ -89,6 +96,7 @@ errorMessage: 'Gelieve een geldig telefoonnummer te geven.'
 }}),
 
 validatie2: (req,res,next)=>{
+    console.log(path)
 
     const error = validationResult(req)
     
@@ -97,7 +105,14 @@ validatie2: (req,res,next)=>{
     
     
     let messages = error.array().map(e => e.msg);
+    console.log(messages)
+    console.log(messages.length)
+    console.log(req.path.includes('edit'))
+    console.log(messages.indexOf('Gelieve een geldig emailadres te geven'))
+    if(messages.indexOf('Gelieve een geldig emailadres te geven')!==-1
+    && messages.length==1 && req.path.indexOf('Edit')!==-1){next()}
     req.flash("validatie", messages)
+
     
     
     res.redirect('/bezoekers/registreren')}
@@ -115,7 +130,6 @@ validatie2: (req,res,next)=>{
 
 
 registreren: (req,res,next)=>{
-   console.log(path)
     
     BezoekerGegevens = (body)=>{
         return{
@@ -160,9 +174,10 @@ authentificatieGet:(req,res,next)=>{res.render('/bezoekers')},
 
 
 afmelden: (req,res,next)=>{
-    
+    req.logout(function(err) {
+        if (err) { }})
     req.flash("afmelden", "Je bent afgemeld");
-    res.redirect("/")
+    res.locals.redirect="/bezoekers"
     next()
     },
     

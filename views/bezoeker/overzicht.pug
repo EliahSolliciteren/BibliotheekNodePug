@@ -2,10 +2,10 @@ include ../indexView.pug
 
 
 each bezoeker in bezoekers
-    p  #{bezoeker.naam.voornaam}
-    p  #{bezoeker.naam.familienaam}
-    p  #{bezoeker.email}
-    p  #{bezoeker.telefoonnummer}
+    p naam:  #{bezoeker.naam.voornaam}
+    p familienaam  #{bezoeker.naam.familienaam}
+    p email:  #{bezoeker.email}
+    p telefoonnummer  #{bezoeker.telefoonnummer}
     a(href='/bezoekers/'+ bezoeker._id +"/delete?_method=DELETE")
         button(type='button') Verwijderen 
     a(href="/bezoekers/"+bezoeker._id+"/edit")

@@ -6,12 +6,13 @@
  bezoekerRouter=require("./bezoekerRouter.js")
  boekRouter=require("./boekRouter.js")
  reviewRouter=require("./reviewRouter.js")
+ apiRouter=require("./apiRouter.js")
  //homeRouter=require("./homeRouter.js")
  //router.use('/',homeRouter)
  router.use("/bezoekers",bezoekerRouter)
  router.use("/reviews",reviewRouter)
  router.use("/boeken",boekRouter)
- 
+ router.use('/api',apiRouter)
  
  
  module.exports = router;

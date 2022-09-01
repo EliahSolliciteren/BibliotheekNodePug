@@ -1,13 +1,13 @@
 include ../indexView.pug 
 
 
-p #{boek.titel}
+p titel: #{boek.titel}
 
-p #{boek.auteur}
+p auteur #{boek.auteur}
 
-p #{boek.uitgever}
+p uitgever #{boek.uitgever}
 
-p #{boek.bladzijden}
+p aantal bladzijde #{boek.bladzijden}
 
 ul
     for tags in boek.tagsGenre 

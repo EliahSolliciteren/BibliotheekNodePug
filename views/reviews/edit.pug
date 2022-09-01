@@ -1,8 +1,14 @@
 include ../indexView.pug
 
+if (flash)
+    if (flash.validatie)
+        ul
+        each fout in flash.validatie 
+            li= fout
+
 form(action="/reviews/"+ review[0]._id+"/edit?_method=PUT", method="post") 
     label(for='tekst') tekst:
-    input(type='tekst' id='tekst' name='tekst' value=review[0].tekst)
+    textarea(type='tekst' id='tekst' name='tekst') #{review[0].tekst}
     br
     label(for='score') score:
     input(type='number' value=review[0].score id='score' name='score' )
