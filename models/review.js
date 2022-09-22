@@ -5,7 +5,7 @@ Schema = mongoose.Schema;
 
 reviewSchema = mongoose.Schema({
 
-score:{
+score: {
 
 type: Number
 

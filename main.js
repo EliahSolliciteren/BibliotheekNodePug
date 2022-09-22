@@ -5,7 +5,8 @@ app.listen(process.env.PORT||3000 , function () { console.log('express running a
 router=require('./routes/indexRouter.js')
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-    
+var cors = require('cors')
+app.use(cors())  
     expressValidator = require("express-validator")
     const methodOverride = require("method-override")
     app.use(methodOverride("_method", {methods: ["POST", "GET"]}));
@@ -61,8 +62,8 @@ let db = client.db(dbName);
 const mongoose = require("mongoose");
 const { Session } = require("inspector")
 const { use, serializeUser } = require("passport")
-mongoose.connect("mongodb://localhost:27017/project_1",
-{useNewUrlParser: true,})
+mongoose.connect("mongodb+srv://nero:Vvrijdag4@cluster0.zye3mbj.mongodb.net/test",
+{useNewUrlParser: true,}) //
 const db = mongoose.connection;
 db.once("open", () => {
 console.log("Successfully connected to MongoDB using Mongoose")
