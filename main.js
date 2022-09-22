@@ -62,7 +62,7 @@ let db = client.db(dbName);
 const mongoose = require("mongoose");
 const { Session } = require("inspector")
 const { use, serializeUser } = require("passport")
-mongoose.connect("mongodb+srv://nero:Vvrijdag4@cluster0.zye3mbj.mongodb.net/test",
+mongoose.connect("mongodb+srv://user:gebruiker5@cluster0.zye3mbj.mongodb.net/test",
 {useNewUrlParser: true,}) //
 const db = mongoose.connection;
 db.once("open", () => {
