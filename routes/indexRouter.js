@@ -28,7 +28,7 @@
  
  
  
- router.use('*', function(req,res){
+ router.use('/*', function(req,res){
  
  req.flash('HTTP404', 'Pagina niet gevonden' )
  res.redirect('/bezoekers')

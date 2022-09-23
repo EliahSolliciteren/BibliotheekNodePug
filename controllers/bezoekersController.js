@@ -154,13 +154,13 @@ registreren: (req,res,next)=>{
         delete:(req,res,next)=>{
             const id=mongoose.Types.ObjectId(req.params.id)
             console.log(id)
-            bezoeker.findByIdAndRemove(id).exec().then(()=>{res.locals.redirect='/bezoekers'})
+            bezoeker.findByIdAndRemove(id).exec().then(()=>{res.locals.redirect='/bezoekers'}).catch(error=>res.redirect('/'))
            next() },
 
             redirectView:(req,res,next)=>{
                 let redirectPath = res.locals.redirect;
                 if (redirectPath){res.redirect(redirectPath)}
-                else {next()};
+              else {next()};
         
             },
 
@@ -191,7 +191,7 @@ updateGet: (req,res,next)=>{
 bezoeker.findById(mongoose.Types.ObjectId(id)).then((eenBezoeker)=>{
 
 res.render('bezoeker/edit',{bezoeker:eenBezoeker})
-})},
+}).catch(error=>res.redirect('/'))},
 
 
 updatePost: (req,res,next)=>{
@@ -203,7 +203,7 @@ updatePost: (req,res,next)=>{
     console.log(req.body)
     bezoeker.findByIdAndUpdate(id,
 {$set: {'naam.voornaam':voornaam, 'naam.familienaam': familienaam,'email' :email, 'telefoonnummer':telefoonnummer}})
-.then(updated=>{ res.redirect('/bezoeker')})
+.then(updated=>{ res.redirect('/bezoeker')}).catch(error=>res.redirect('/'))
     },
 
 
@@ -211,8 +211,8 @@ updatePost: (req,res,next)=>{
 leenoverzicht: (req,res,next)=>{
 //console.log(req.user)
 bezoeker.findById(req.user._id).populate('lenen').then(resultaat=>
-{res.render('bezoeker/leenoverzicht',{geleend:resultaat})})
-//.then(user2=>{console.log(user2);res.render('bezoeker/leenoverzicht',{geleend:user2})})
+{res.render('bezoeker/leenoverzicht',{geleend:resultaat})}).catch(error=>
+res.redirect('/'))
 
 
 

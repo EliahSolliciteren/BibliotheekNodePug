@@ -167,30 +167,20 @@ boek.findByIdAndUpdate(id, {$set: {titel:titel, auteur:auteur, uitgever:uitgever
 
 },  
 
-/*
-details: (req, res,next)=>{
 
-const id=mongoose.Types.ObjectId(req.params.id) 
-
-boek.findById(id).then(opgezocht=>{
-   
-    
-res.render('boeken/details', {boek:opgezocht})
-})
-},*/
 
 delete:(req,res,next)=>{
 console.log(req.path)
     const id=mongoose.Types.ObjectId(req.params.id)
 
     console.log(id)
-    boek.findByIdAndRemove(id).exec().then(()=>{res.locals.redirect='boeken'})
+    boek.findByIdAndRemove(id).exec().then(()=>res.locals.redirect='boeken')
 next()
 },
 
 lenen:(req,res,next)=>{
     const id=mongoose.Types.ObjectId(req.params.id)
-    //console.log(req.user)
+   
     const vandaag = new Date(); 
     console.log(vandaag)
 bezoeker.findByIdAndUpdate(req.user._id, {$push:{'lenen': [id], 'geleendOp': [vandaag] }}).exec()
@@ -201,29 +191,27 @@ bezoeker.findByIdAndUpdate(req.user._id, {$push:{'lenen': [id], 'geleendOp': [va
     req.flash("lenen", "Veel leesplezier")
 
 res.redirect("/boeken");
-})},
+}).catch(error=>res.redirect('/'))},
 
 binnenbrengen: (req,res,next)=>{
     const id=mongoose.Types.ObjectId(req.params.id)
 const datum =  (req.query.datum)
-console.log(Date(datum))
+
 
 boek.find({'UitgeleendOp':datum }).exec().then(boeken=>{
- console.log(boeken)
-  //  console.log(req.User._id)
+ 
+  //Hier zit een fout
     for(var i=0; i< boeken[0].UitgeleendOp.length;i++ ){
-     // console.log(boeken[0].UitgeleendOp[i].getTime())
-  //   console.log(voor) 
+   
 
-     if (boeken[0].UitgeleendOp[i]=datum ){
+     if (boeken[0].UitgeleendOp[i]==datum ){
         console.log(boeken[0].UitgeleendOp[i] )
         const gezocht=boeken[0].UitgeleendOp[i]
-console.log(gezocht); console.log(boeken[0]._id)
-console.log('gezocht:' +gezocht)
+
     boek.findOneAndUpdate(boeken[0]._id, { $pull:{'UitgeleendOp':gezocht}}).exec()
     .then(bezoeker.findOneAndUpdate(req.user._id, {$pull:{geleendOp:gezocht}}).exec())
     .then(()=>bezoeker.findOneAndUpdate(req.user._id, {$pull:{lenen:id}}).exec())
-res.locals.redirect='/bezoekers/leenoverzicht' ;next()//id is miss verkeerde
+res.locals.redirect='/bezoekers/leenoverzicht' ;next()//Als je hetzelfde boek meerdere keren uitleend brengt hij ze allemaal terug
 }
 
     
@@ -273,7 +261,7 @@ res.render('boeken/overzicht', {boeken:boek1})
 }
 }}   
         
-    //    else {res.render('geen resultaat')}}             
+                
                 
 )}
 else{next()}
@@ -302,7 +290,7 @@ else if (uitgever){ //nog meer dan 1 over na auteur
 
 ,
 zoeken3:(req,res,next)=>{
-res.send('???')
+
 
 
 },
